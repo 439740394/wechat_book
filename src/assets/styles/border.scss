@@ -1,0 +1,447 @@
+@mixin common1 {
+  content: "";
+  overflow: hidden;
+  position: absolute;
+}
+
+@mixin border2($size: 1px, $type: solid, $color: #000000) {
+  border: $size $type $color;
+}
+
+@mixin border2-top($size: 1px, $type: solid, $color: #000000) {
+  border-top: $size $type $color;
+}
+
+@mixin border2-right($size: 1px, $type: solid, $color: #000000) {
+  border-right: $size $type $color;
+}
+
+@mixin border2-bottom($size: 1px, $type: solid, $color: #000000) {
+  border-bottom: $size $type $color;
+}
+
+@mixin border2-left($size: 1px, $type: solid, $color: #000000) {
+  border-left: $size $type $color;
+}
+
+@mixin border2-topbottom($size: 1px, $type: solid, $color: #000000) {
+  border-top: $size $type $color;
+  border-bottom: $size $type $color;
+}
+
+@mixin border2-rightleft($size: 1px, $type: solid, $color: #000000) {
+  border-right: $size $type $color;
+  border-left: $size $type $color;
+}
+
+@mixin border2-topleft($size: 1px, $type: solid, $color: #000000) {
+  border-top: $size $type $color;
+  border-left: $size $type $color;
+}
+
+@mixin border2-bottomright($size: 1px, $type: solid, $color: #000000) {
+  border-bottom: $size $type $color;
+  border-right: $size $type $color;
+}
+
+@mixin border2-topright($size: 1px, $type: solid, $color: #000000) {
+  border-top: $size $type $color;
+  border-right: $size $type $color;
+}
+
+@mixin border2-bottomleft($size: 1px, $type: solid, $color: #000000) {
+  border-bottom: $size $type $color;
+  border-left: $size $type $color;
+}
+
+@mixin border2-notop($size: 1px, $type: solid, $color: #000000) {
+  border: $size $type $color;
+  border-top: none;
+}
+
+@mixin border2-noright($size: 1px, $type: solid, $color: #000000) {
+  border: $size $type $color;
+  border-right: none;
+}
+
+@mixin border2-nobottom($size: 1px, $type: solid, $color: #000000) {
+  border: $size $type $color;
+  border-bottom: none;
+}
+
+@mixin border2-noleft($size: 1px, $type: solid, $color: #000000) {
+  border: $size $type $color;
+  border-left: none;
+}
+
+@mixin border($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before {
+    @include common1;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: $size $type $color;
+    transform-origin: 0 0;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before {
+      width: 200%;
+      height: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before {
+      width: 300%;
+      height: 300%;
+      transform: scale(.333333333);
+    }
+  }
+}
+
+@mixin border-top($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before {
+    @include common1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-top: $size $type $color;
+    transform-origin: 0 0;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before {
+      width: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before {
+      width: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-right($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before {
+    @include common1;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    border-right: $size $type $color;
+    transform-origin: 100% 0;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before {
+      height: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before {
+      height: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-bottom($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before {
+    @include common1;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: $size $type $color;
+    transform-origin: 0 100%;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before {
+      width: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before {
+      width: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-left($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before {
+    @include common1;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    border-left: $size $type $color;
+    transform-origin: 0 0;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before {
+      height: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before {
+      height: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+
+@mixin border-topbottom($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before, &:after {
+    @include common1;
+    left: 0;
+    width: 100%;
+    height: 0;
+  }
+  &:before {
+    border-top: $size $type $color;
+    transform-origin: 0 0;
+    top: 0;
+  }
+  &:after {
+    border-bottom: $size $type $color;
+    transform-origin: 0 100%;
+    bottom: 0;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before, &:after {
+      height: 200%;
+      width: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before, &:after {
+      height: 300%;
+      width: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-rightleft($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before, &:after {
+    @include common1;
+    top: 0;
+    width: 0;
+    height: 100%;
+  }
+  &:before {
+    border-left: $size $type $color;
+    transform-origin: 0 0;
+    left: 0;
+  }
+  &:after {
+    border-right: $size $type $color;
+    transform-origin: 100% 0;
+    right: 0;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before, &:after {
+      height: 200%;
+      width: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before, &:after {
+      height: 300%;
+      width: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-topleft($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before, &:after {
+    @include common1;
+    transform-origin: 0 0;
+  }
+  &:before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-top: $size $type $color;
+  }
+  &:after {
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    border-left: $size $type $color;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before, &:after {
+      height: 200%;
+      width: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before, &:after {
+      height: 300%;
+      width: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-rightbottom($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before, &:after {
+    @include common1;
+  }
+  &:before {
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    border-right: $size $type $color;
+    transform-origin: 100% 0;
+  }
+  &:after {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: $size $type $color;
+    transform-origin: 0 100%;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before, &:after {
+      height: 200%;
+      width: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before, &:after {
+      height: 300%;
+      width: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-topright($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before, &:after {
+    @include common1;
+  }
+  &:before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-top: $size $type $color;
+    transform-origin: 0 0;
+  }
+  &:after {
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    border-right: $size $type $color;
+    transform-origin: 100% 0;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before, &:after {
+      height: 200%;
+      width: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before, &:after {
+      height: 300%;
+      width: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-bottomleft($size: 1px, $type: solid, $color: #000000) {
+  position: relative;
+  &:before, &:after {
+    @include common1;
+  }
+  &:before {
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    border-left: $size $type $color;
+    transform-origin: 0 0;
+  }
+  &:after {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: $size $type $color;
+    transform-origin: 0 100%;
+  }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+    &:before, &:after {
+      height: 200%;
+      width: 200%;
+      transform: scale(.5);
+    }
+  }
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    &:before, &:after {
+      height: 300%;
+      width: 300%;
+      transform: scale(.333333);
+    }
+  }
+}
+
+@mixin border-notop($size: 1px, $type: solid, $color: #000000) {
+  @include border($size, $type, $color);
+  &:before {
+    border-top: none;
+  }
+}
+
+@mixin border-noright($size: 1px, $type: solid, $color: #000000) {
+  @include border($size, $type, $color);
+  &:before {
+    border-right: none;
+  }
+}
+
+@mixin border-nobottom($size: 1px, $type: solid, $color: #000000) {
+  @include border($size, $type, $color);
+  &:before {
+    border-bottom: none;
+  }
+}
+
+@mixin border-noleft($size: 1px, $type: solid, $color: #000000) {
+  @include border($size, $type, $color);
+  &:before {
+    border-left: none;
+  }
+}
