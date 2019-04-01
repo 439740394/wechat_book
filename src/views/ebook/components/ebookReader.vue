@@ -35,17 +35,23 @@ export default {
     },
     /* 控制栏选项 */
     toggleTitleAndMenu () {
+      if (this.menuVisible) {
+        this.setSettingVisible(-1)
+      }
       this.setMenuVisible(!this.menuVisible)
     },
     /* 隐藏控制栏 */
     hideTitleAndMenu () {
       this.setMenuVisible(false)
+      this.setSettingVisible(-1)
     },
     /* 初始化电子书 */
     _initEpub () {
       const bookUrl = 'http://192.168.20.96:8082/epub/' + this.$route.params.fileName.split('|').join('/') + '.epub'
       /* 解析电子书 */
       this.book = new Epub(bookUrl)
+      /* 电子书对象传入到vuex */
+      this.setCurrentBook(this.book)
       /* 通过book对象的renderTO方法渲染电子书 */
       this.rendition = this.book.renderTo('read', {
         width: innerWidth,
