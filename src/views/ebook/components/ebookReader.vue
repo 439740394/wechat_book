@@ -9,6 +9,8 @@
 import { ebookMinxins } from '../../../utils/mixins'
 /* 引入EPUBJS */
 import Epub from 'epubjs'
+/* 引入本地存储 */
+import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme } from '../../../utils/localStorage'
 
 export default {
   name: 'ebookReader',
@@ -37,6 +39,7 @@ export default {
     toggleTitleAndMenu () {
       if (this.menuVisible) {
         this.setSettingVisible(-1)
+        this.setFontFamilyVisible(false)
       }
       this.setMenuVisible(!this.menuVisible)
     },
@@ -44,6 +47,40 @@ export default {
     hideTitleAndMenu () {
       this.setMenuVisible(false)
       this.setSettingVisible(-1)
+      this.setFontFamilyVisible(false)
+    },
+    /* 初始化主题 */
+    _initTheme () {
+      let defaultTheme = getTheme(this.fileName)
+      if (!defaultTheme) {
+        defaultTheme = this.themeList[0].name
+      }
+      this.setDefaultTheme(defaultTheme)
+      saveTheme(this.fileName, defaultTheme)
+      this.themeList.forEach(theme => {
+        this.rendition.themes.register(theme.name, theme.style)
+      })
+      console.log(this.defaultTheme)
+      this.rendition.themes.select(this.defaultTheme)
+    },
+    /* 初始化字体 */
+    _initFontFamily () {
+      let fontFamily = getFontFamily(this.fileName)
+      if (!fontFamily) {
+        saveFontFamily(this.fileName, this.defaultFontFamily)
+      } else {
+        this.rendition.themes.font(fontFamily)
+        this.setDefaultFontFamily(fontFamily)
+      }
+    },
+    _initFontSize () {
+      let fontSize = getFontSize(this.fileName)
+      if (!fontSize) {
+        saveFontSize(this.fileName, this.defaultFontSize)
+      } else {
+        this.rendition.themes.fontSize(fontSize)
+        this.setDefaultFontSize(fontSize)
+      }
     },
     /* 初始化电子书 */
     _initEpub () {
@@ -59,7 +96,22 @@ export default {
         method: 'default'
       })
       /* 通过rendition的displayf方法渲染到页面中 */
-      this.rendition.display()
+      this.rendition.display().then(() => {
+        this._initTheme()
+        this._initFontFamily()
+        this._initFontSize()
+      })
+      /* 引用在线字体 */
+      this.rendition.hooks.content.register(contents => {
+        Promise.all([
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
+        ]).then(() => {
+          console.log(1)
+        })
+      })
       /* 通过rendtion的on方法绑定时间到iframe里面 */
       this.rendition.on('touchstart', (ev) => {
         if (ev.changedTouches.length > 1) {
@@ -91,7 +143,6 @@ export default {
           this.toggleTitleAndMenu()
         }
         ev.preventDefault()
-        ev.stopPropagation()
       })
     }
   }

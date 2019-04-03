@@ -1,4 +1,4 @@
-import { realPx } from '../utils/mixins'
+import { realPx } from '../utils/utils'
 
 const state = {
   book: {

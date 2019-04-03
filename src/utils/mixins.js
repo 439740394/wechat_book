@@ -1,9 +1,5 @@
 import { mapGetters, mapActions } from 'vuex'
-
-export function realPx (px) {
-  const maxWidth = window.innerWidth > 500 ? 500 : window.innerWidth
-  return px * (maxWidth / 375)
-}
+import { themeList } from './bookConfig'
 
 export const ebookMinxins = {
   methods: {
@@ -31,6 +27,9 @@ export const ebookMinxins = {
     ])
   },
   computed: {
+    themeList () {
+      return themeList(this)
+    },
     ...mapGetters([
       'fileName',
       'menuVisible',

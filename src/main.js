@@ -8,6 +8,8 @@ import './assets/styles/icon.css'
 import './assets/styles/global.scss'
 /* 解决移动端点击延迟 */
 import FastClick from 'fastclick'
+/* 引入语言切换 */
+import i18n from './lang/index'
 
 Vue.config.productionTip = false
 FastClick.attach(document.body)
@@ -15,5 +17,6 @@ FastClick.attach(document.body)
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount('#app')

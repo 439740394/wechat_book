@@ -22,12 +22,32 @@
 
 <script type="text/ecmascript-6">
 import { ebookMinxins } from '../../../utils/mixins'
+import { FONT_FAMILY } from '../../../utils/bookConfig'
+import { saveFontFamily } from '../../../utils/localStorage'
 
 export default {
   mixins: [ebookMinxins],
+  data () {
+    return {
+      fontFamily: FONT_FAMILY
+    }
+  },
   methods: {
     isSelected (item) {
       return this.defaultFontFamily === item.font
+    },
+    hideFontFamilySetting () {
+      this.setFontFamilyVisible(false)
+    },
+    setFontFamily (fontFamily) {
+      this.setDefaultFontFamily(fontFamily)
+      saveFontFamily(this.fileName, fontFamily)
+      /* 设置字体 */
+      if (fontFamily === 'Default') {
+        this.currentBook.rendition.themes.font('Times New Roman')
+      } else {
+        this.currentBook.rendition.themes.font(fontFamily)
+      }
     }
   }
 }
@@ -40,10 +60,11 @@ export default {
     position: absolute;
     bottom: 0;
     left: 0;
-    z-index: 350;
+    z-index: 106;
     width: 100%;
     font-size: 0;
     box-shadow: 0 px2rem(-4) px2rem(6) rgba(0, 0, 0, .1);
+    background: #ffffff;
     .ebook-popup-title {
       position: relative;
       text-align: center;

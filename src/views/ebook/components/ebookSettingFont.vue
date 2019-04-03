@@ -3,7 +3,7 @@
     <div class="setting-wrapper" v-show="menuVisible && settingVisible === 0">
       <div class="setting-font-size">
         <div class="preview" ref="left">
-          <span ref="leftText">A</span>
+          <span :style="styleLeft" ref="leftText">A</span>
         </div>
         <div class="select">
           <div class="select-wrapper" v-for="(item, index) in fontSizeList" :key="index"
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="preview" ref="right">
-          <span ref="rightText">A</span>
+          <span :style="styleRight" ref="rightText">A</span>
         </div>
       </div>
       <div class="setting-font-family" @click.stop="showFontFamilyPopup">
@@ -36,11 +36,14 @@
 <script type="text/ecmascript-6">
 import { ebookMinxins } from '../../../utils/mixins'
 import { FONT_SIZE_LIST } from '../../../utils/bookConfig'
+import { saveFontSize } from '../../../utils/localStorage'
 
 export default {
   mixins: [ebookMinxins],
   data () {
     return {
+      styleLeft: {},
+      styleRight: {},
       fontSizeList: FONT_SIZE_LIST
     }
   },
@@ -50,19 +53,36 @@ export default {
       this.currentBook.rendition.themes.fontSize(fontSize)
       /* 设置默认字体 */
       this.setDefaultFontSize(fontSize)
+      saveFontSize(this.fileName, this.defaultFontSize)
     },
     showFontFamilyPopup () {
       this.setFontFamilyVisible(true)
+    },
+    /* 设置字体样式 */
+    genStyle () {
+      const left = this.$refs.left.getBoundingClientRect().width
+      const right = this.$refs.left.getBoundingClientRect().width
+      const leftText = this.$refs.leftText.getBoundingClientRect().width
+      const rightText = this.$refs.leftText.getBoundingClientRect().width
+      const item = this.$refs.item[0].getBoundingClientRect().width
+      this.styleLeft = {
+        marginLeft: (left + item - leftText) / 4 + 'px',
+        fontSize: this.fontSizeList[0].fontSize + 'px'
+      }
+      this.styleRight = {
+        marginRight: (right + item - rightText) / 4 + 'px',
+        fontSize: this.fontSizeList[this.fontSizeList.length - 1].fontSize + 'px'
+      }
     }
   },
   watch: {
-    // settingVisible (v) {
-    //   if (v === 0) {
-    //     this.$nextTick(() => {
-    //       this.genStyle()
-    //     })
-    //   }
-    // }
+    settingVisible (v) {
+      if (v === 0) {
+        this.$nextTick(() => {
+          this.genStyle()
+        })
+      }
+    }
   }
 }
 </script>
