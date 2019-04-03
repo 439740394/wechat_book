@@ -24,10 +24,14 @@ export default {
   },
   methods: {
     setTheme (index) {
+      if (this.themeList[index].name === this.defaultTheme) {
+        return false
+      }
       const theme = this.themeList[index]
       saveTheme(this.fileName, theme.name)
       this.setDefaultTheme(theme.name).then(() => {
         this.currentBook.rendition.themes.select(this.defaultTheme)
+        this._initGlobalTheme()
       })
     }
   }

@@ -10,13 +10,14 @@ import { ebookMinxins } from '../../../utils/mixins'
 /* 引入EPUBJS */
 import Epub from 'epubjs'
 /* 引入本地存储 */
-import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme } from '../../../utils/localStorage'
+import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme, getLocation } from '../../../utils/localStorage'
 
 export default {
   name: 'ebookReader',
   mixins: [ebookMinxins],
   mounted () {
-    this.$store.dispatch('setFileName', this.$route.params.fileName.split('|').join('/')).then(() => {
+    const url = this.$route.params.fileName.split('|').join('/')
+    this.setFileName(url).then(() => {
       this._initEpub()
     })
   },
@@ -25,14 +26,18 @@ export default {
     prevPage () {
       if (this.rendition) {
         this.rendition.prev()
-        this.hideTitleAndMenu()
+        this.hideTitleAndMenu().then(() => {
+          this.refreshLocation()
+        })
       }
     },
     /* 电子书下一页翻页 */
     nextPage () {
       if (this.rendition) {
         this.rendition.next()
-        this.hideTitleAndMenu()
+        this.hideTitleAndMenu().then(() => {
+          this.refreshLocation()
+        })
       }
     },
     /* 控制栏选项 */
@@ -54,14 +59,13 @@ export default {
       let defaultTheme = getTheme(this.fileName)
       if (!defaultTheme) {
         defaultTheme = this.themeList[0].name
+        saveTheme(this.fileName, defaultTheme)
       }
       this.setDefaultTheme(defaultTheme)
-      saveTheme(this.fileName, defaultTheme)
       this.themeList.forEach(theme => {
         this.rendition.themes.register(theme.name, theme.style)
       })
-      console.log(this.defaultTheme)
-      this.rendition.themes.select(this.defaultTheme)
+      this.rendition.themes.select(defaultTheme)
     },
     /* 初始化字体 */
     _initFontFamily () {
@@ -73,6 +77,7 @@ export default {
         this.setDefaultFontFamily(fontFamily)
       }
     },
+    /* 初始化字号 */
     _initFontSize () {
       let fontSize = getFontSize(this.fileName)
       if (!fontSize) {
@@ -84,7 +89,7 @@ export default {
     },
     /* 初始化电子书 */
     _initEpub () {
-      const bookUrl = 'http://192.168.20.96:8082/epub/' + this.$route.params.fileName.split('|').join('/') + '.epub'
+      const bookUrl = `${process.env.VUE_APP_RES_URL}/epub/${this.fileName}.epub`
       /* 解析电子书 */
       this.book = new Epub(bookUrl)
       /* 电子书对象传入到vuex */
@@ -92,14 +97,8 @@ export default {
       /* 通过book对象的renderTO方法渲染电子书 */
       this.rendition = this.book.renderTo('read', {
         width: innerWidth,
-        height: innerHeight,
-        method: 'default'
-      })
-      /* 通过rendition的displayf方法渲染到页面中 */
-      this.rendition.display().then(() => {
-        this._initTheme()
-        this._initFontFamily()
-        this._initFontSize()
+        height: innerHeight
+        // method: 'default'
       })
       /* 引用在线字体 */
       this.rendition.hooks.content.register(contents => {
@@ -111,6 +110,29 @@ export default {
         ]).then(() => {
           console.log(1)
         })
+      })
+      /* 通过rendition的displayf方法渲染到页面中 */
+      const location = getLocation(this.fileName)
+      if (location) {
+        this.display(location, () => {
+          this._initTheme()
+          this._initGlobalTheme()
+          this._initFontFamily()
+          this._initFontSize()
+        })
+      } else {
+        this.display(null, () => {
+          this._initTheme()
+          this._initGlobalTheme()
+          this._initFontFamily()
+          this._initFontSize()
+        })
+      }
+      /* 加载完电子书后进行分页 */
+      this.book.ready.then(() => {
+        return this.book.locations.generate(750 * (window.innerWidth) / 375 * (getFontSize(this.fileName) / 16))
+      }).then(locations => {
+        this.setBookAvailable(true)
       })
       /* 通过rendtion的on方法绑定时间到iframe里面 */
       this.rendition.on('touchstart', (ev) => {
