@@ -3,7 +3,7 @@
     <div class="setting-wrapper" v-show="menuVisible && settingVisible === 2">
       <div class="setting-progress">
         <div class="read-time-wrapper">
-          <span class="read-time-text">10</span>
+          <span class="read-time-text">{{getReadTimeText()}}</span>
           <span class="icon-forward"></span>
         </div>
         <div class="progress-wrapper">
@@ -34,6 +34,7 @@
 
 <script type="text/ecmascript-6">
 import { ebookMinxins } from '../../../utils/mixins'
+import { getReadTime } from '../../../utils/localStorage'
 
 export default {
   mixins: [ebookMinxins],
@@ -43,6 +44,17 @@ export default {
     }
   },
   methods: {
+    getReadTimeText () {
+      return this.$t('book.haveRead').replace('$1', this.getReadTimeByMinute())
+    },
+    getReadTimeByMinute () {
+      const readTime = getReadTime(this.fileName)
+      if (!readTime) {
+        return 0
+      } else {
+        return Math.ceil(readTime / 60)
+      }
+    },
     updateProgressBackground () {
       this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
     },

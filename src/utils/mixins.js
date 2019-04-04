@@ -49,19 +49,11 @@ export const ebookMinxins = {
     refreshLocation () {
       const currentLocation = this.currentBook.rendition.currentLocation()
       const startCfi = currentLocation.start.cfi
-      const progress = this.currentBook.locations.percentageFromCfi(currentLocation.start.cfi)
+      const progress = this.currentBook.locations.percentageFromCfi(startCfi)
       const precent = Math.floor(progress * 100)
       this.setProgress(precent)
+      this.setSection(currentLocation.start.index)
       saveLocation(this.fileName, startCfi)
-    },
-    display (target, callback) {
-      if (target) {
-        this.currentBook.rendition.display(target)
-        callback && callback()
-      } else {
-        this.currentBook.rendition.display()
-        callback && callback()
-      }
     }
   },
   computed: {

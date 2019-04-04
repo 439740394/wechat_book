@@ -21,7 +21,7 @@
           <span :style="styleRight" ref="rightText">A</span>
         </div>
       </div>
-      <div class="setting-font-family" @click.stop="showFontFamilyPopup">
+      <div class="setting-font-family" @click="showFontFamilyPopup">
         <div class="setting-font-family-text-wrapper">
           <span class="setting-font-family-text">{{defaultFontFamily}}</span>
         </div>
@@ -50,7 +50,7 @@ export default {
   methods: {
     setFontSize (fontSize) {
       /* 设置字号方法 */
-      this.currentBook.rendition.themes.fontSize(fontSize)
+      this.currentBook.rendition.themes.fontSize(fontSize + 'px')
       /* 设置默认字体 */
       this.setDefaultFontSize(fontSize)
       saveFontSize(this.fileName, this.defaultFontSize)

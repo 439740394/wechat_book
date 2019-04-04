@@ -25,19 +25,19 @@ export default {
     /* 电子书上一页翻页 */
     prevPage () {
       if (this.rendition) {
-        this.rendition.prev()
-        this.hideTitleAndMenu().then(() => {
+        this.rendition.prev().then(() => {
           this.refreshLocation()
         })
+        this.hideTitleAndMenu()
       }
     },
     /* 电子书下一页翻页 */
     nextPage () {
       if (this.rendition) {
-        this.rendition.next()
-        this.hideTitleAndMenu().then(() => {
+        this.rendition.next().then(() => {
           this.refreshLocation()
         })
+        this.hideTitleAndMenu()
       }
     },
     /* 控制栏选项 */
@@ -83,7 +83,7 @@ export default {
       if (!fontSize) {
         saveFontSize(this.fileName, this.defaultFontSize)
       } else {
-        this.rendition.themes.fontSize(fontSize)
+        this.rendition.themes.fontSize(fontSize + 'px')
         this.setDefaultFontSize(fontSize)
       }
     },
@@ -113,25 +113,28 @@ export default {
       })
       /* 通过rendition的displayf方法渲染到页面中 */
       const location = getLocation(this.fileName)
-      if (location) {
-        this.display(location, () => {
+      if (this.rendition && location) {
+        this.rendition.display(location).then(() => {
           this._initTheme()
           this._initGlobalTheme()
           this._initFontFamily()
           this._initFontSize()
+          this.refreshLocation()
         })
-      } else {
-        this.display(null, () => {
+      } else if (this.rendition && !location) {
+        this.rendition.display().then(() => {
           this._initTheme()
           this._initGlobalTheme()
           this._initFontFamily()
           this._initFontSize()
+          this.refreshLocation()
         })
       }
       /* 加载完电子书后进行分页 */
       this.book.ready.then(() => {
-        return this.book.locations.generate(750 * (window.innerWidth) / 375 * (getFontSize(this.fileName) / 16))
+        return this.book.locations.generate()/* 可以加参数分多少页 */
       }).then(locations => {
+        this.refreshLocation()
         this.setBookAvailable(true)
       })
       /* 通过rendtion的on方法绑定时间到iframe里面 */

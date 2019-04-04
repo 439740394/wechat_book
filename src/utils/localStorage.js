@@ -80,3 +80,11 @@ export function getLocation (fileName) {
 export function saveLocation (fileName, location) {
   setBookObject(fileName, 'location', location)
 }
+
+/* 阅读时间 */
+export function getReadTime (fileName) {
+  return getBookObject(fileName, 'time')
+}
+export function saveReadTime (fileName, theme) {
+  setBookObject(fileName, 'time', theme)
+}
