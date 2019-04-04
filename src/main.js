@@ -11,6 +11,7 @@ import FastClick from 'fastclick'
 /* 引入语言切换 */
 import i18n from './lang/index'
 
+Vue.config.devtools = true
 Vue.config.productionTip = false
 FastClick.attach(document.body)
 

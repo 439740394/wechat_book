@@ -16,7 +16,10 @@ const state = {
     currentBook: null,
     navigation: null,
     cover: null,
-    metadata: null,
+    metadata: {
+      title: '',
+      creator: ''
+    },
     paginate: '',
     pagelist: null,
     offsetY: 0,

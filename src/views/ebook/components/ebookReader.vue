@@ -11,6 +11,7 @@ import { ebookMinxins } from '../../../utils/mixins'
 import Epub from 'epubjs'
 /* 引入本地存储 */
 import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme, getLocation } from '../../../utils/localStorage'
+import { resortNavigation, findNavParent } from '../../../utils/utils'
 
 export default {
   name: 'ebookReader',
@@ -53,6 +54,25 @@ export default {
       this.setMenuVisible(false)
       this.setSettingVisible(-1)
       this.setFontFamilyVisible(false)
+    },
+    /* 获取封面 名称作者 目录 */
+    _initParseBook () {
+      this.book.loaded.cover.then(cover => {
+        this.book.archive.createUrl(cover).then(url => {
+          this.setCover(url)
+        })
+      })
+      this.book.loaded.metadata.then(data => {
+        this.setMetadata(data)
+      })
+      this.book.loaded.navigation.then(nav => {
+        let navigation = resortNavigation(nav.toc)
+        console.log(navigation)
+        navigation.forEach(item => {
+          item.level = findNavParent(navigation, item)
+        })
+        console.log(navigation)
+      })
     },
     /* 初始化主题 */
     _initTheme () {
@@ -130,6 +150,7 @@ export default {
           this.refreshLocation()
         })
       }
+      this._initParseBook()
       /* 加载完电子书后进行分页 */
       this.book.ready.then(() => {
         return this.book.locations.generate()/* 可以加参数分多少页 */

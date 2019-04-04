@@ -1,6 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import { themeList, adddCss, removeAllCss } from './bookConfig'
-import { saveLocation } from './localStorage'
+import { saveLocation, getReadTime } from './localStorage'
 
 export const ebookMinxins = {
   methods: {
@@ -54,6 +54,17 @@ export const ebookMinxins = {
       this.setProgress(precent)
       this.setSection(currentLocation.start.index)
       saveLocation(this.fileName, startCfi)
+    },
+    getReadTimeText () {
+      return this.$t('book.haveRead').replace('$1', this.getReadTimeByMinute())
+    },
+    getReadTimeByMinute () {
+      const readTime = getReadTime(this.fileName)
+      if (!readTime) {
+        return 0
+      } else {
+        return Math.ceil(readTime / 60)
+      }
     }
   },
   computed: {
