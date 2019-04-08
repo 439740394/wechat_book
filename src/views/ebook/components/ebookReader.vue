@@ -11,7 +11,7 @@ import { ebookMinxins } from '../../../utils/mixins'
 import Epub from 'epubjs'
 /* 引入本地存储 */
 import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme, getLocation } from '../../../utils/localStorage'
-import { resortNavigation, findNavParent } from '../../../utils/utils'
+import { resortNavigation } from '../../../utils/utils'
 
 export default {
   name: 'ebookReader',
@@ -66,12 +66,14 @@ export default {
         this.setMetadata(data)
       })
       this.book.loaded.navigation.then(nav => {
-        let navigation = resortNavigation(nav.toc)
-        console.log(navigation)
-        navigation.forEach(item => {
-          item.level = findNavParent(navigation, item)
+        let navItem = resortNavigation(nav.toc)
+        navItem.forEach(item => {
+          item.level = find(item)
         })
-        console.log(navigation)
+        function find (item, level = 0) {
+          return !item.parent ? level : find(navItem.filter(parentItem => parentItem.id === item.parent)[0], ++level)
+        }
+        this.setNavigation(navItem)
       })
     },
     /* 初始化主题 */
@@ -128,7 +130,6 @@ export default {
           contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
           contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
         ]).then(() => {
-          console.log(1)
         })
       })
       /* 通过rendition的displayf方法渲染到页面中 */
@@ -165,13 +166,11 @@ export default {
         }
         this.touchStartX = ev.changedTouches[0].pageX
         this.touchStartTime = ev.timeStamp
-        ev.preventDefault()
-      })
+      }, { passive: false })
       this.rendition.on('touchmove', (ev) => {
         if (ev.changedTouches.length > 1) {
           return false
         }
-        ev.preventDefault()
       })
       this.rendition.on('touchend', (ev) => {
         if (ev.changedTouches.length > 1) {
@@ -188,7 +187,6 @@ export default {
         } else {
           this.toggleTitleAndMenu()
         }
-        ev.preventDefault()
       })
     }
   }

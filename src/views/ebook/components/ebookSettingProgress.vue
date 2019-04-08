@@ -89,15 +89,16 @@ export default {
   },
   computed: {
     getSectionName () {
-      if (this.section) {
-        const sectionInfo = this.currentBook.section(this.section)
-        if (sectionInfo && sectionInfo.href) {
-          if (this.currentBook.navigation.get(sectionInfo.href)) {
-            return this.currentBook.navigation.get(sectionInfo.href).label
-          }
-        }
-      }
-      return ''
+      // if (this.section) {
+      //   const sectionInfo = this.currentBook.section(this.section)
+      //   if (sectionInfo && sectionInfo.href) {
+      //     if (this.currentBook.navigation.get(sectionInfo.href)) {
+      //       return this.currentBook.navigation.get(sectionInfo.href).label
+      //     }
+      //   }
+      // }
+      // return ''
+      return this.section ? this.navigation[this.section].label : ''
     }
   },
   updated () {
@@ -172,6 +173,7 @@ export default {
         box-sizing: border-box;
         @include center;
         .progress-section-text {
+          flex: 1;
           line-height: px2rem(15);
           @include ellipsis;
         }

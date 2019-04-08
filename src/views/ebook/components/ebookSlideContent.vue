@@ -10,7 +10,7 @@
                :placeholder="$t('book.searchHint')"
                @click="showSearchPage()"
                v-model="searchText"
-               @keyup.enter="search()"
+               @keyup.enter.exact="search()"
                ref="searchInput">
       </div>
       <div class="slide-contents-search-cancel" v-show="searchVisible"
@@ -37,25 +37,30 @@
         <div class="slide-contents-book-time">{{getReadTimeText()}}</div>
       </div>
     </div>
-    <!--<scroll class="slide-contents-list" :top="156" :bottom="48" ref="scroll" v-show="!searchVisible">-->
-      <!--<div class="slide-contents-item" v-for="(item, index) in navigation" :key="index" @click="display(item.href)">-->
-        <!--<span class="slide-contents-item-label" :class="{'selected': section === index}">{{item.label.trim()}}</span>-->
-        <!--<span class="slide-contents-item-page">{{item.page}}</span>-->
-      <!--</div>-->
-    <!--</scroll>-->
-    <!--<scroll class="slide-search-list" :top="66" :bottom="48" ref="scroll" v-show="searchVisible">-->
-      <!--<div class="slide-search-item" v-for="(item, index) in searchList"-->
-           <!--:key="index" v-html="item.excerpt" @click="display(item.cfi, true)">-->
-      <!--</div>-->
-    <!--</scroll>-->
+    <scroll class="slide-contents-list" :top="156" :bottom="48" ref="scroll" v-show="!searchVisible">
+      <div class="slide-contents-item" v-for="(item, index) in navigation" :key="index" @click="display(item.href)">
+        <span class="slide-contents-item-label" :style="contentItemStyle(item)" :class="{'selected': section === index}">{{item.label.trim()}}</span>
+        <span class="slide-contents-item-page">{{item.page}}</span>
+      </div>
+    </scroll>
+    <scroll class="slide-search-list" :top="66" :bottom="48" ref="scroll" v-show="searchVisible">
+      <div class="slide-search-item" v-for="(item, index) in searchList"
+           :key="index" v-html="item.excerpt" @click="display(item.cfi, true)">
+      </div>
+    </scroll>
   </div>
 </template>
 
 <script>
 import { ebookMinxins } from '../../../utils/mixins'
+import Scroll from '../../../components/scroll'
+import { px2rem } from '../../../utils/utils'
 
 export default {
   mixins: [ebookMinxins],
+  components: {
+    Scroll
+  },
   data () {
     return {
       searchText: '',
@@ -64,11 +69,48 @@ export default {
     }
   },
   methods: {
+    search () {
+      if (this.searchText && this.searchText.length > 0) {
+        this.doSearch(this.searchText).then(list => {
+          this.searchList = list
+          this.searchList.map(item => {
+            item.excerpt = item.excerpt.replace(this.searchText, `<span class="content-search-text">${this.searchText}</span>`)
+            return item
+          })
+        })
+      }
+    },
+    /* 电子书检索方法 */
+    doSearch (q) {
+      return Promise.all(
+        this.currentBook.spine.spineItems.map(
+          item => item.load(this.currentBook.load.bind(this.currentBook)).then(item.find.bind(item, q)).finally(item.unload.bind(item)))
+      ).then(results => Promise.resolve([].concat.apply([], results)))
+    },
+    display (location, hightlight = false) {
+      this.currentBook.rendition.display(location).then(() => {
+        this.refreshLocation()
+        this.setMenuVisible(false)
+        this.setSettingVisible(-1)
+        this.setFontFamilyVisible(false)
+        /* 高亮 */
+        if (hightlight) {
+          this.currentBook.rendition.annotations.highlight(location)
+        }
+      })
+    },
+    contentItemStyle (item) {
+      return {
+        marginLeft: px2rem(item.level * 15) + 'rem'
+      }
+    },
     showSearchPage () {
       this.searchVisible = true
     },
     hideSearchPage () {
       this.searchVisible = false
+      this.searchText = ''
+      this.searchList = null
     }
   }
 }

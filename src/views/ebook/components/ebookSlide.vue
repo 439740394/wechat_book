@@ -3,7 +3,7 @@
     <div class="slide-content-wrapper" v-show="menuVisible && settingVisible === 3">
       <transition name="slide-right">
         <div class="content" v-show="settingVisible === 3">
-          <div class="content-page-wrapper">
+          <div class="content-page-wrapper" v-if="bookAvailable">
             <div class="content-page">
               <component :is="currentTab === 1 ? content : bookmark"></component>
             </div>
@@ -18,6 +18,9 @@
               </div>
             </div>
           </div>
+          <div class="empty" v-else>
+            <ebook-loading></ebook-loading>
+          </div>
         </div>
       </transition>
       <div class="content-bg" v-if="menuVisible && settingVisible === 3" @click="hide()"></div>
@@ -28,11 +31,13 @@
 <script type="text/ecmascript-6">
 import { ebookMinxins } from '../../../utils/mixins'
 import EbookSlideContent from './ebookSlideContent'
+import EbookLoading from './ebookLoading'
 
 export default {
   mixins: [ebookMinxins],
   components: {
-    EbookSlideContent
+    EbookSlideContent,
+    EbookLoading
   },
   data () {
     return {
