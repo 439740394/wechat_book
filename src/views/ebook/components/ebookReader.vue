@@ -38,7 +38,13 @@ export default {
         x: e.changedTouches[0].pageX,
         y: e.changedTouches[0].pageY
       }
-      if (this.startPoint) {
+      let btn = null
+      if ((Math.abs(this.movePoint.y - this.startPoint.y) - 3 * Math.abs(this.movePoint.x - this.startPoint.x)) >= 0) {
+        btn = true
+      } else {
+        btn = false
+      }
+      if (this.startPoint && btn) {
         offsetY = this.movePoint.y - this.startPoint.y
         this.setOffsetY(offsetY)
       }
