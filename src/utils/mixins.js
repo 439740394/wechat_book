@@ -1,6 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import { themeList, adddCss, removeAllCss } from './bookConfig'
-import { saveLocation, getReadTime } from './localStorage'
+import { saveLocation, getReadTime, getBookmark } from './localStorage'
 
 export const ebookMinxins = {
   methods: {
@@ -23,7 +23,7 @@ export const ebookMinxins = {
       'setPaginate',
       'setPagelist',
       'setOffsetY',
-      'setIsBookmark',
+      'setIsBookMark',
       'setSpeakingIconBottom'
     ]),
     _initGlobalTheme () {
@@ -55,6 +55,16 @@ export const ebookMinxins = {
         this.setProgress(precent)
         this.setSection(currentLocation.start.index)
         saveLocation(this.fileName, startCfi)
+        const bookmark = getBookmark(this.fileName)
+        if (bookmark) {
+          if (bookmark.some(item => item.cfi === startCfi)) {
+            this.setIsBookMark(true)
+          } else {
+            this.setIsBookMark(false)
+          }
+        } else {
+          this.setIsBookMark(false)
+        }
       }
     },
     getReadTimeText () {
@@ -89,7 +99,7 @@ export const ebookMinxins = {
       'paginate',
       'pagelist',
       'offsetY',
-      'isBookmark',
+      'isBookMark',
       'speakingIconBottom'
     ]),
     themeList () {

@@ -31,19 +31,21 @@
 <script type="text/ecmascript-6">
 import { ebookMinxins } from '../../../utils/mixins'
 import EbookSlideContent from './ebookSlideContent'
+import EbookSlideBookMark from './ebookSlideBookmark'
 import EbookLoading from './ebookLoading'
 
 export default {
   mixins: [ebookMinxins],
   components: {
     EbookSlideContent,
+    EbookSlideBookMark,
     EbookLoading
   },
   data () {
     return {
       currentTab: 1,
       content: EbookSlideContent,
-      bookmark: null
+      bookmark: EbookSlideBookMark
     }
   },
   methods: {

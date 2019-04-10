@@ -15,6 +15,9 @@ export default {
       default: 'white'
     }
   },
+  mounted () {
+    this.refresh()
+  },
   methods: {
     refresh () {
       if (this.height && this.width) {

@@ -53,8 +53,8 @@ const mutaions = {
   'SET_OFFSETY': (state, offsetY) => {
     state.book.offsetY = offsetY
   },
-  'SET_IS_BOOKMARK': (state, isBookmark) => {
-    state.book.isBookmark = isBookmark
+  'SET_IS_BOOKMARK': (state, isBookMark) => {
+    state.book.isBookMark = isBookMark
   },
   'SET_SPEAKING_ICON_BOTTOM': (state, speakingIconBottom) => {
     state.book.speakingIconBottom = speakingIconBottom

@@ -173,7 +173,6 @@ export default {
         box-sizing: border-box;
         @include center;
         .progress-section-text {
-          flex: 1;
           line-height: px2rem(15);
           @include ellipsis;
         }

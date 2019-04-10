@@ -88,3 +88,12 @@ export function getReadTime (fileName) {
 export function saveReadTime (fileName, theme) {
   setBookObject(fileName, 'time', theme)
 }
+
+/* 书签 */
+export function getBookmark (fileName) {
+  return getBookObject(fileName, 'bookmark')
+}
+
+export function saveBookmark (fileName, bookmark) {
+  setBookObject(fileName, 'bookmark', bookmark)
+}

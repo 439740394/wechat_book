@@ -23,7 +23,7 @@ const state = {
     paginate: '',
     pagelist: null,
     offsetY: 0,
-    isBookmark: null,
+    isBookMark: null,
     speakingIconBottom: realPx(58)
   }
 }
