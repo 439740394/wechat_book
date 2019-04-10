@@ -1,5 +1,7 @@
 <template>
   <div class="ebook" ref="ebook">
+    <ebook-header></ebook-header>
+    <ebook-footer></ebook-footer>
     <ebook-reader></ebook-reader>
     <ebook-title></ebook-title>
     <ebook-menu></ebook-menu>
@@ -16,6 +18,10 @@ import EbookTitle from './components/ebookTitle'
 import EbookMenu from './components/ebookMenu'
 /* 引入下方书签组件 */
 import EbookBookMark from './components/ebookBookMark'
+/* 引入页眉 */
+import EbookHeader from './components/ebookHeader'
+/* 引入页脚 */
+import EbookFooter from './components/ebookFooter'
 import { getReadTime, saveReadTime } from '../../utils/localStorage'
 import { ebookMinxins } from '../../utils/mixins'
 
@@ -25,7 +31,9 @@ export default {
     EbookReader,
     EbookTitle,
     EbookMenu,
-    EbookBookMark
+    EbookBookMark,
+    EbookHeader,
+    EbookFooter
   },
   mixins: [ebookMinxins],
   mounted () {

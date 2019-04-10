@@ -50,6 +50,7 @@ export default {
         this.setSettingVisible(-1)
       } else {
         this.setSettingVisible(num)
+        this.setFontFamilyVisible(false)
       }
     }
   }

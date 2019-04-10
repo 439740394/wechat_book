@@ -12,7 +12,7 @@ import { ebookMinxins } from '../../../utils/mixins'
 import Epub from 'epubjs'
 /* 引入本地存储 */
 import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme, getLocation } from '../../../utils/localStorage'
-import { resortNavigation } from '../../../utils/utils'
+import { resortNavigation, realPx } from '../../../utils/utils'
 
 export default {
   name: 'ebookReader',
@@ -31,6 +31,7 @@ export default {
         y: e.changedTouches[0].pageY
       }
       this.startTime = e.timeStamp
+      this.direction = 0
     },
     handleMaskMove (e) {
       let offsetY = 0
@@ -38,16 +39,18 @@ export default {
         x: e.changedTouches[0].pageX,
         y: e.changedTouches[0].pageY
       }
-      let btn = null
-      if ((Math.abs(this.movePoint.y - this.startPoint.y) - 3 * Math.abs(this.movePoint.x - this.startPoint.x)) >= 0) {
-        btn = true
-      } else {
-        btn = false
+      if (Math.abs(this.movePoint.y - this.startPoint.y) - 2 * Math.abs(this.movePoint.x - this.startPoint.x) >= 0 && !this.direction) {
+        this.direction = 1
       }
-      if (this.startPoint && btn) {
+      if (this.startPoint && this.direction) {
         offsetY = this.movePoint.y - this.startPoint.y
+        if (offsetY >= this.endHeight) {
+          offsetY = this.endHeight + (offsetY - this.endHeight) * 0.3
+        }
         this.setOffsetY(offsetY)
       }
+      e.preventDefault()
+      e.stopPropagation()
     },
     handleMaskEnd (e) {
       this.endPoint = {
@@ -63,8 +66,7 @@ export default {
         this.toggleTitleAndMenu()
       }
       this.setOffsetY(0)
-      this.startPoint = null
-      this.startTime = null
+      this.direction = 0
     },
     /* 电子书上一页翻页 */
     prevPage () {
@@ -164,6 +166,7 @@ export default {
         width: innerWidth,
         height: innerHeight
         // method: 'default'
+        // flow: 'scrolled'滚动模式
       })
       /* 引用在线字体 */
       this.rendition.hooks.content.register(contents => {
@@ -209,7 +212,7 @@ export default {
         }
         this.touchStartX = ev.changedTouches[0].pageX
         this.touchStartTime = ev.timeStamp
-      }, { passive: false })
+      })
       this.rendition.on('touchmove', (ev) => {
         if (ev.changedTouches.length > 1) {
           return false
@@ -231,6 +234,11 @@ export default {
           this.toggleTitleAndMenu()
         }
       })
+    }
+  },
+  computed: {
+    endHeight () {
+      return realPx(55)
     }
   }
 }
