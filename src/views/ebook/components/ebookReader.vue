@@ -1,7 +1,7 @@
 <template>
   <div class="ebook-reader">
     <div id="read"></div>
-    <div class="ebook-reader-mask" @click="handleMaskClick" @touchmove="handleMaskMove" @touchend="handleMaskEnd"></div>
+    <div class="ebook-reader-mask" @touchstart="handleMaskStart" @touchmove="handleMaskMove" @touchend="handleMaskEnd"></div>
   </div>
 </template>
 
@@ -25,32 +25,40 @@ export default {
   },
   methods: {
     /* 蒙版touch事件 */
+    handleMaskStart (e) {
+      this.startPoint = {
+        x: e.changedTouches[0].pageX,
+        y: e.changedTouches[0].pageY
+      }
+      this.startTime = e.timeStamp
+    },
     handleMaskMove (e) {
       let offsetY = 0
-      if (this.firstOffsetY) {
-        offsetY = e.changedTouches[0].clientY - this.firstOffsetY
-        this.setOffsetY(offsetY)
-      } else {
-        this.firstOffsetY = e.changedTouches[0].clientY
+      this.movePoint = {
+        x: e.changedTouches[0].pageX,
+        y: e.changedTouches[0].pageY
       }
-      e.preventDefault()
-      e.stopPropagation()
+      if (this.startPoint) {
+        offsetY = this.movePoint.y - this.startPoint.y
+        this.setOffsetY(offsetY)
+      }
     },
-    handleMaskEnd () {
-      this.setOffsetY(0)
-      this.firstOffsetY = null
-    },
-    /* 蒙版点击事件 */
-    handleMaskClick (e) {
-      const offsetX = e.offsetX
-      const screenW = window.innerWidth
-      if (offsetX > 0 && offsetX < screenW * 0.3) {
+    handleMaskEnd (e) {
+      this.endPoint = {
+        x: e.changedTouches[0].pageX,
+        y: e.changedTouches[0].pageY
+      }
+      this.endTime = e.timeStamp
+      if (this.startPoint.x < window.innerWidth * 0.3 && Math.abs(this.endPoint.x - this.startPoint.x) <= 2 && Math.abs(this.endPoint.y - this.startPoint.y) <= 6 && this.endTime - this.startTime < 500) {
         this.prevPage()
-      } else if (offsetX > screenW * 0.7) {
+      } else if (window.innerWidth * 0.7 < this.startPoint.x && this.startPoint.x < window.innerWidth && Math.abs(this.endPoint.x - this.startPoint.x) <= 6 && Math.abs(this.endPoint.y - this.startPoint.y) <= 2 && this.endTime - this.startTime < 500) {
         this.nextPage()
-      } else {
+      } else if (window.innerWidth * 0.3 < this.startPoint.x && this.startPoint.x < window.innerWidth * 0.7 && Math.abs(this.endPoint.x - this.startPoint.x) <= 6 && Math.abs(this.endPoint.y - this.startPoint.y) <= 2 && this.endTime - this.startTime < 500) {
         this.toggleTitleAndMenu()
       }
+      this.setOffsetY(0)
+      this.startPoint = null
+      this.startTime = null
     },
     /* 电子书上一页翻页 */
     prevPage () {
