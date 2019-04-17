@@ -33,7 +33,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { ebookMinxins } from '../../../utils/mixins'
+import { ebookMinxins } from '../../utils/mixins'
 
 export default {
   mixins: [ebookMinxins],
@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
 
   .setting-wrapper {
     position: absolute;

@@ -13,9 +13,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Scroll from '../../../components/scroll'
-import { ebookMinxins } from '../../../utils/mixins'
-import { getBookmark } from '../../../utils/localStorage'
+import Scroll from '../scroll'
+import { ebookMinxins } from '../../utils/mixins'
+import { getBookmark } from '../../utils/localStorage'
 
 export default {
   mixins: [ebookMinxins],
@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
 
   .ebook-slide-bookmark {
     width: 100%;

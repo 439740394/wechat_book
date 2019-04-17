@@ -51,7 +51,7 @@ export const ebookMinxins = {
       if (currentLocation && currentLocation.start) {
         const startCfi = currentLocation.start.cfi
         const progress = this.currentBook.locations.percentageFromCfi(startCfi)
-        const precent = Math.floor(progress * 100)
+        const precent = Math.ceil(progress * 100)
         this.setProgress(precent)
         this.setSection(currentLocation.start.index)
         saveLocation(this.fileName, startCfi)
@@ -105,5 +105,22 @@ export const ebookMinxins = {
     themeList () {
       return themeList(this)
     }
+  }
+}
+
+export const storeHomeMixin = {
+  methods: {
+    ...mapActions([
+      'setOffsetY',
+      'setHotSearchOffsetY',
+      'setFlapCardVisible'
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      'offsetY',
+      'hotSearchOffsetY',
+      'flapCardVisible'
+    ])
   }
 }

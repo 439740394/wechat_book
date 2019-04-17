@@ -169,7 +169,7 @@ $ratio: 375 / 10;
 }
 
 $homeAnimationTime: .2s;
-.title-enter-active, .title-leave-active, .host-search-enter-active, .host-search-leave-active, .shelf-tab-slide-up-enter-active, .shelf-tab-slide-up-leave-active {
+.title-enter-active, .title-leave-active, .hot-search-enter-active, .hot-search-leave-active, .shelf-tab-slide-up-enter-active, .shelf-tab-slide-up-leave-active {
   transition: all $homeAnimationTime linear;
 }
 
@@ -178,13 +178,13 @@ $homeAnimationTime: .2s;
   opacity: 0;
 }
 
-.title-leave, .title-enter-to, .host-search-leave, .host-search-enter-to, .shelf-tab-slide-up-enter-to, .shelf-tab-slide-up-leave {
+.title-leave, .title-enter-to, .hot-search-leave, .hot-search-enter-to, .shelf-tab-slide-up-enter-to, .shelf-tab-slide-up-leave {
   transform: translate3d(0, 0, 0);
   opacity: 1;
 }
 
-.host-search-enter, .host-search-leave-to {
-  transform: translate3d(0, px2rem(50), 0);
+.hot-search-enter, .hot-search-leave-to {
+  transform: translate3d(0, px2rem(100), 0);
   opacity: 0;
 }
 
@@ -203,4 +203,15 @@ $homeAnimationTime: .2s;
 
 .opacity-slide-up-enter-active, .opacity-slide-up-leave-active {
   transition: all .2s linear;
+}
+
+.icon {
+  color: #666666;
+  font-size: px2rem(16);
+}
+
+.title {
+  color: #666666;
+  font-size: px2rem(16);
+  font-weight: bold;
 }

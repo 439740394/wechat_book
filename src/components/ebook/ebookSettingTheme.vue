@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import { ebookMinxins } from '../../../utils/mixins'
-import { saveTheme } from '../../../utils/localStorage'
+import { ebookMinxins } from '../../utils/mixins'
+import { saveTheme } from '../../utils/localStorage'
 
 export default {
   mixins: [ebookMinxins],
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
 
   .setting-wrapper {
     position: absolute;

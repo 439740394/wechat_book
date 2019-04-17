@@ -34,9 +34,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { ebookMinxins } from '../../../utils/mixins'
-import { FONT_SIZE_LIST } from '../../../utils/bookConfig'
-import { saveFontSize } from '../../../utils/localStorage'
+import { ebookMinxins } from '../../utils/mixins'
+import { FONT_SIZE_LIST } from '../../utils/bookConfig'
+import { saveFontSize } from '../../utils/localStorage'
 
 export default {
   mixins: [ebookMinxins],
@@ -88,7 +88,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
 
   .setting-wrapper {
     position: absolute;

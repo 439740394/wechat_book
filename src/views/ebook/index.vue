@@ -11,17 +11,17 @@
 
 <script>
 /* 引入电子书组件 */
-import EbookReader from './components/ebookReader'
+import EbookReader from '../../components/ebook/ebookReader'
 /* 引入电子书头部组件 */
-import EbookTitle from './components/ebookTitle'
+import EbookTitle from '../../components/ebook/ebookTitle'
 /* 引入下方menu组件 */
-import EbookMenu from './components/ebookMenu'
+import EbookMenu from '../../components/ebook/ebookMenu'
 /* 引入下方书签组件 */
-import EbookBookMark from './components/ebookBookMark'
+import EbookBookMark from '../../components/ebook/ebookBookMark'
 /* 引入页眉 */
-import EbookHeader from './components/ebookHeader'
+import EbookHeader from '../../components/ebook/ebookHeader'
 /* 引入页脚 */
-import EbookFooter from './components/ebookFooter'
+import EbookFooter from '../../components/ebook/ebookFooter'
 import { getReadTime, saveReadTime } from '../../utils/localStorage'
 import { ebookMinxins } from '../../utils/mixins'
 

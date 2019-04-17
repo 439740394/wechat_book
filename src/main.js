@@ -10,6 +10,8 @@ import './assets/styles/global.scss'
 import FastClick from 'fastclick'
 /* 引入语言切换 */
 import i18n from './lang/index'
+/* 引入mockjs */
+import './mock/index'
 
 Vue.config.devtools = true
 Vue.config.productionTip = false

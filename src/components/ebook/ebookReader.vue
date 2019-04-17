@@ -7,12 +7,12 @@
 
 <script>
 /* 引入混入minxins */
-import { ebookMinxins } from '../../../utils/mixins'
+import { ebookMinxins } from '../../utils/mixins'
 /* 引入EPUBJS */
 import Epub from 'epubjs'
 /* 引入本地存储 */
-import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme, getLocation } from '../../../utils/localStorage'
-import { resortNavigation, realPx } from '../../../utils/utils'
+import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme, getLocation } from '../../utils/localStorage'
+import { resortNavigation, realPx } from '../../utils/utils'
 
 export default {
   name: 'ebookReader',

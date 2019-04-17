@@ -25,7 +25,9 @@ const state = {
     offsetY: 0,
     isBookMark: null,
     speakingIconBottom: realPx(58)
-  }
+  },
+  hotSearchOffsetY: 0,
+  flapCardVisible: false
 }
 
 export default state

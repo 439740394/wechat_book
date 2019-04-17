@@ -13,7 +13,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { px2rem } from '../../../utils/utils'
+import { px2rem } from '../../utils/utils'
 
 export default {
   data () {
@@ -94,7 +94,7 @@ export default {
       })
     }, 20)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     if (this.task) {
       clearInterval(this.task)
     }
@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
 
   .ebook-loading {
     position: relative;

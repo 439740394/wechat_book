@@ -15,11 +15,11 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { ebookMinxins } from '../../../utils/mixins'
+import { ebookMinxins } from '../../utils/mixins'
 /*  引入书签组件 */
-import BookMark from '../../../components/bookMark'
-import { realPx } from '../../../utils/utils'
-import { getBookmark, saveBookmark } from '../../../utils/localStorage'
+import BookMark from '../bookMark'
+import { realPx } from '../../utils/utils'
+import { getBookmark, saveBookmark } from '../../utils/localStorage'
 
 const BLUE = '#346cbc'
 const WHITE = '#ffffff'
@@ -159,7 +159,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
 
   .ebook-bookmark {
     position: absolute;

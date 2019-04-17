@@ -21,7 +21,7 @@
 
 <script>
 /* 引入混入minxins */
-import { ebookMinxins } from '../../../utils/mixins'
+import { ebookMinxins } from '../../utils/mixins'
 export default {
   name: 'ebookTitle',
   mixins: [ebookMinxins],
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
 
   .title-wrapper {
     position: absolute;

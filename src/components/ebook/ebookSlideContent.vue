@@ -52,9 +52,9 @@
 </template>
 
 <script>
-import { ebookMinxins } from '../../../utils/mixins'
-import Scroll from '../../../components/scroll'
-import { px2rem } from '../../../utils/utils'
+import { ebookMinxins } from '../../utils/mixins'
+import Scroll from '../scroll'
+import { px2rem } from '../../utils/utils'
 
 export default {
   mixins: [ebookMinxins],
@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
   .ebook-slide-contents {
     width: 100%;
     font-size: 0;

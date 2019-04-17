@@ -27,7 +27,7 @@
 
 <script type="text/ecmascript-6">
 /* 引入混入minxins */
-import { ebookMinxins } from '../../../utils/mixins'
+import { ebookMinxins } from '../../utils/mixins'
 import EbookSettingFont from './ebookSettingFont'
 import EbookSettingFontPopup from './ebookSettingFontPopup'
 import EbookSettingTheme from './ebookSettingTheme'
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../../../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
   .menu-wrapper {
     position: absolute;
     bottom: 0;
