@@ -1,6 +1,6 @@
 <template>
-  <div class="flap-card-wrapper" v-show="flapCardVisible">
-    <div class="flap-card-background" :class="{'animation': runAnimation}">
+  <div class="flap-card-wrapper" v-if="flapCardVisible">
+    <div class="flap-card-background" :class="{'animation': runAnimation}" v-show="runAnimation">
       <div class="flap-card" v-for="(item, index) in flapCardList" :key="index" :style="{zIndex: item.zIndex}">
         <div class="flap-card-circle">
           <div class="circle circle-left" :style="circleStyle(item, 'left')" ref="left"></div>
@@ -11,6 +11,19 @@
         <div class="point" :class="{'animation': pointAnimation}" v-for="(item, index) of pointList" :key="index"></div>
       </div>
     </div>
+    <div class="book-card" :class="{'animation': runBookCardAnimation}" v-show="runBookCardAnimation">
+      <div class="book-card-wrapper">
+        <div class="img-wrapper">
+          <img class="img" :src="data.cover">
+        </div>
+        <div class="content-wrapper">
+          <div class="title">{{data.title}}</div>
+          <div class="author sub-title-medium">{{data.author}}</div>
+          <div class="category">{{categoryText()}}</div>
+        </div>
+        <div class="read-btn" @click.stop="showBookDetail(data)">{{$t('home.readNow')}}</div>
+      </div>
+    </div>
     <div class="close-btn-wrapper" @click="hideFlapCard">
       <span class="icon-close"></span>
     </div>
@@ -19,13 +32,32 @@
 
 <script>
 import { storeHomeMixin } from '../../utils/mixins'
-import { flapCardList } from '../../utils/flapCard'
-
+import { flapCardList, categoryText } from '../../utils/store'
 export default {
   name: 'flapCard',
   mixins: [storeHomeMixin],
   props: {
-    data: Object
+    data: {
+      type: Object,
+      default () {
+        return {
+          author: 'Jeroen Kool',
+          bookId: '2016_Book_SustainableDevelopmentInTheJor',
+          cache: false,
+          category: 3,
+          categoryText: 'Economics',
+          cover: 'http://47.99.166.157/book/res/img/Economics/2016_Book_SustainableDevelopmentInTheJor.jpeg',
+          fileName: '2016_Book_SustainableDevelopmentInTheJor',
+          haveRead: 0,
+          id: 227,
+          language: 'en',
+          private: false,
+          publisher: 'Springer International Publishing, Cham',
+          selected: false,
+          title: 'Sustainable Development in the Jordan Valley'
+        }
+      }
+    }
   },
   data () {
     return {
@@ -35,7 +67,8 @@ export default {
       intervalTime: 25,
       runAnimation: false,
       pointList: [],
-      pointAnimation: false
+      pointAnimation: false,
+      runBookCardAnimation: false
     }
   },
   created () {
@@ -45,11 +78,12 @@ export default {
     }
   },
   methods: {
-    startPointAnimation () {
-      this.pointAnimation = true
-      setTimeout(() => {
-        this.stopAnimation()
-      }, 2500)
+    categoryText () {
+      if (this.data) {
+        return categoryText(this.data.category, this)
+      } else {
+        return ''
+      }
     },
     reset () {
       this.front = 0
@@ -61,6 +95,9 @@ export default {
         this.rotate(index, 'front')
         this.rotate(index, 'back')
       })
+      this.runAnimation = false
+      this.pointAnimation = false
+      this.runBookCardAnimation = false
     },
     stopAnimation () {
       this.runAnimation = false
@@ -120,9 +157,11 @@ export default {
       this.prepare()
       this.task = setInterval(() => {
         this.flapCardRotateAnimation()
+        this.pointAnimation = true
       }, this.intervalTime)
-      setTimeout(() => {
+      this.timer1 = setTimeout(() => {
         this.stopAnimation()
+        this.runBookCardAnimation = true
       }, 2500)
     },
     rotate (index, type) {
@@ -140,6 +179,9 @@ export default {
     },
     hideFlapCard () {
       this.stopAnimation()
+      if (this.timer1) {
+        clearTimeout(this.timer1)
+      }
       this.setFlapCardVisible(false)
     }
   },
@@ -148,7 +190,6 @@ export default {
       if (v) {
         this.runAnimation = true
         setTimeout(() => {
-          this.startPointAnimation()
           this.startFlapCardAnimation()
         }, 500)
       }
@@ -158,8 +199,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/styles/mixin";
   @import "../../assets/styles/flapCard";
+  @import "../../assets/styles/home";
   .flap-card-wrapper {
     @include absCenter;
     z-index: 999;
@@ -235,6 +276,77 @@ export default {
               }
             }
           }
+        }
+      }
+    }
+    .book-card {
+      position: relative;
+      width: 65%;
+      box-sizing: border-box;
+      border-radius: px2rem(15);
+      background: white;
+      &.animation {
+        animation: scale .3s ease-in both;
+        @keyframes scale {
+          0% {
+            transform: scale(0);
+            opacity: 0;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      }
+      .book-card-wrapper {
+        width: 100%;
+        height: 100%;
+        margin-bottom: px2rem(30);
+        @include columnTop;
+        .img-wrapper {
+          width: 100%;
+          margin-top: px2rem(20);
+          @include center;
+          .img {
+            width: px2rem(90);
+            height: px2rem(130);
+          }
+        }
+        .content-wrapper {
+          padding: 0 px2rem(20);
+          margin-top: px2rem(20);
+          .title {
+            color: #333;
+            font-weight: bold;
+            font-size: px2rem(18);
+            line-height: px2rem(20);
+            max-height: px2rem(40);
+            text-align: center;
+            @include ellipsis2(2)
+          }
+          .author {
+            margin-top: px2rem(10);
+            text-align: center;
+          }
+          .category {
+            color: #999;
+            font-size: px2rem(14);
+            margin-top: px2rem(10);
+            text-align: center;
+          }
+        }
+        .read-btn {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          z-index: 1100;
+          width: 100%;
+          border-radius: 0 0 px2rem(15) px2rem(15);
+          padding: px2rem(15) 0;
+          text-align: center;
+          color: white;
+          font-size: px2rem(14);
+          background: $color-blue;
         }
       }
     }

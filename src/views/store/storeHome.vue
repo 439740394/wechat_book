@@ -59,7 +59,7 @@ export default {
   data () {
     return {
       scrollTop: 94,
-      random: ''
+      random: null
     }
   },
   mounted () {
