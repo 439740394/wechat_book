@@ -53,7 +53,7 @@
 
 <script>
 import { ebookMinxins } from '../../utils/mixins'
-import Scroll from '../scroll'
+import Scroll from '../common/scroll'
 import { px2rem } from '../../utils/utils'
 
 export default {

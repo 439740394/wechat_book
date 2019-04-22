@@ -25,7 +25,8 @@
             class="input"
             :placeholder="$t('home.hint')"
             v-model="searchText"
-            @click="showHotSearchVisible">
+            @click="showHotSearchVisible"
+            @keyup.13.exact="search">
         </div>
       </div>
     </div>
@@ -36,7 +37,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { realPx } from '../../utils/utils'
 /* 引入mixin */
 import { storeHomeMixin } from '../../utils/mixins'
 /* 引入热门搜索组件 */
@@ -57,12 +57,20 @@ export default {
     }
   },
   methods: {
+    search () {
+      this.$router.push({
+        path: '/store/list',
+        query: {
+          keyword: this.searchText
+        }
+      })
+    },
     showFlapCard () {
       this.setFlapCardVisible(true)
     },
     back () {
       this.offsetY > 0 ? this.showShadowVisible() : this.hideShadowVisible()
-      this.hideHotSearchVisible()
+      this.hotSearchVisible ? this.hideHotSearchVisible() : this.$router.push('/store/shelf')
     },
     hideHotSearchVisible () {
       this.offsetY > 0 ? this.hideTitle() : this.showTitle()

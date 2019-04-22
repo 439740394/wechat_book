@@ -64,6 +64,18 @@ const mutaions = {
   },
   'SET_FLAP_CARD_VISIBLE': (state, visible) => {
     state.flapCardVisible = visible
+  },
+  'SET_IS_EDIT_MODE': (state, isEditMode) => {
+    state.isEditMode = isEditMode
+  },
+  'SET_SHELF_LIST': (state, list) => {
+    state.shelfList = list
+  },
+  'SET_SHELF_SELECTED': (state, selected) => {
+    state.shelfSelected = selected
+  },
+  'SET_SHELF_TITLE_VISIBLE': (state, visible) => {
+    state.shelfTitleVisible = visible
   }
 }
 

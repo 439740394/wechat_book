@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Scroll from '../scroll'
+import Scroll from '../common/scroll'
 import HotSearch from './HotSearch'
 import { storeHomeMixin } from '../../utils/mixins'
 

@@ -11,7 +11,9 @@ import FastClick from 'fastclick'
 /* 引入语言切换 */
 import i18n from './lang/index'
 /* 引入mockjs */
-import './mock/index'
+// import './mock/index'
+import './utils/array'
+import './utils/create-api'
 
 Vue.config.devtools = true
 Vue.config.productionTip = false

@@ -3,7 +3,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { px2rem } from '../utils/utils'
+import { px2rem } from '../../utils/utils'
 
 export default {
   name: 'bookMark',
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
   .book-mark {
       width: 0;
       height: 0;

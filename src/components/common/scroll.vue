@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { realPx } from '../utils/utils'
+import { realPx } from '../../utils/utils'
 
 export default {
   props: {
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  @import "../assets/styles/mixin";
+  @import "../../assets/styles/mixin";
 
   .scroll-wrapper {
     position: relative;

@@ -1,6 +1,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { themeList, adddCss, removeAllCss } from './bookConfig'
 import { saveLocation, getReadTime, getBookmark } from './localStorage'
+import { gotoBookDetail } from './store'
 
 export const ebookMinxins = {
   methods: {
@@ -108,6 +109,30 @@ export const ebookMinxins = {
   }
 }
 
+export const storeShelfMixin = {
+  methods: {
+    ...mapActions([
+      'setIsEditMode',
+      'setShelfList',
+      'setShelfSelected',
+      'setShelfTitleVisible',
+      'setOffsetY'
+    ]),
+    showBookDetail (book) {
+      gotoBookDetail(this, book)
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'isEditMode',
+      'shelfList',
+      'shelfSelected',
+      'shelfTitleVisible',
+      'offsetY'
+    ])
+  }
+}
+
 export const storeHomeMixin = {
   methods: {
     ...mapActions([
@@ -116,7 +141,7 @@ export const storeHomeMixin = {
       'setFlapCardVisible'
     ]),
     showBookDetail (book) {
-      console.log(222)
+      gotoBookDetail(this, book)
     }
   },
   computed: {

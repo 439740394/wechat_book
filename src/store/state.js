@@ -27,7 +27,11 @@ const state = {
     speakingIconBottom: realPx(58)
   },
   hotSearchOffsetY: 0,
-  flapCardVisible: false
+  flapCardVisible: false,
+  isEditMode: false,
+  shelfList: [],
+  shelfSelected: [],
+  shelfTitleVisible: true
 }
 
 export default state

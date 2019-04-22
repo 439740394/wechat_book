@@ -17,7 +17,7 @@
 <script type="text/ecmascript-6">
 import { ebookMinxins } from '../../utils/mixins'
 /*  引入书签组件 */
-import BookMark from '../bookMark'
+import BookMark from '../common/bookMark'
 import { realPx } from '../../utils/utils'
 import { getBookmark, saveBookmark } from '../../utils/localStorage'
 
