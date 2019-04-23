@@ -1,7 +1,8 @@
 import { mapGetters, mapActions } from 'vuex'
 import { themeList, adddCss, removeAllCss } from './bookConfig'
-import { saveLocation, getReadTime, getBookmark } from './localStorage'
-import { gotoBookDetail } from './store'
+import { saveLocation, getReadTime, getBookmark, getBookShelf, saveBookShelf } from './localStorage'
+import { gotoBookDetail, addToShelf } from './store'
+import { shelf } from '../api/store'
 
 export const ebookMinxins = {
   methods: {
@@ -120,6 +121,22 @@ export const storeShelfMixin = {
     ]),
     showBookDetail (book) {
       gotoBookDetail(this, book)
+    },
+    getShelfList () {
+      let shelfList = getBookShelf()
+      if (!shelfList) {
+        shelf().then(res => {
+          if (res.data && res.data.bookList.length > 0) {
+            shelfList = addToShelf(res.data.bookList)
+            saveBookShelf(shelfList)
+            this.setShelfList(shelfList)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        this.setShelfList(shelfList)
+      }
     }
   },
   computed: {

@@ -18,6 +18,16 @@ export function clearLocalStorage () {
   return localStorage.clear()
 }
 
+/* 书架 */
+export function saveBookShelf (shelf) {
+  return setLocalStorage('shelf', shelf)
+}
+
+export function getBookShelf () {
+  return getLocalStorage('shelf')
+}
+
+/* 阅读器 */
 export function setBookObject (fileName, key, value) {
   let book = getLocalStorage(`${fileName}-info`)
   if (!book) {

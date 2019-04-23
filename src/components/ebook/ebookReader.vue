@@ -13,14 +13,26 @@ import Epub from 'epubjs'
 /* 引入本地存储 */
 import { getFontFamily, saveFontFamily, getFontSize, saveFontSize, getTheme, saveTheme, getLocation } from '../../utils/localStorage'
 import { resortNavigation, realPx } from '../../utils/utils'
+import { getLocalForage } from '../../utils/localForage'
 
 export default {
   name: 'ebookReader',
   mixins: [ebookMinxins],
   mounted () {
-    const url = this.$route.params.fileName.split('|').join('/')
-    this.setFileName(url).then(() => {
-      this._initEpub()
+    const books = this.$route.params.fileName.split('|')
+    const fileName = books[1]
+    const name = books.join('/')
+    getLocalForage(fileName, (err, blob) => {
+      if (!err && blob) {
+        this.setFileName(name).then(() => {
+          this._initEpub(blob)
+        })
+      } else {
+        const url = process.env.VUE_APP_RES_URL + '/epub/' + this.fileName + '.epub'
+        this.setFileName(name).then(() => {
+          this._initEpub(url)
+        })
+      }
     })
   },
   methods: {
@@ -155,10 +167,9 @@ export default {
       }
     },
     /* 初始化电子书 */
-    _initEpub () {
-      const bookUrl = `${process.env.VUE_APP_RES_URL}/epub/${this.fileName}.epub`
+    _initEpub (url) {
       /* 解析电子书 */
-      this.book = new Epub(bookUrl)
+      this.book = new Epub(url)
       /* 电子书对象传入到vuex */
       this.setCurrentBook(this.book)
       /* 通过book对象的renderTO方法渲染电子书 */

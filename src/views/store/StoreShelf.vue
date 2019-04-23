@@ -12,8 +12,6 @@
 <script>
 /* 引入混入 */
 import { storeShelfMixin } from '../../utils/mixins'
-import { shelf } from '../../api/store'
-import { addToShelf } from '../../utils/store'
 import ShelfTitle from '../../components/shelf/ShelfTitle'
 import Scroll from '../../components/common/scroll'
 import ShelfSearch from '../../components/shelf/ShelfSearch'
@@ -35,13 +33,7 @@ export default {
     }
   },
   created () {
-    shelf().then(res => {
-      if (res.data && res.data.bookList.length > 0) {
-        this.setShelfList(addToShelf(res.data.bookList))
-      }
-    }).catch(err => {
-      console.log(err)
-    })
+    this.getShelfList()
   },
   methods: {
     onScroll (v) {

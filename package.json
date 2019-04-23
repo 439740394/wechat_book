@@ -12,6 +12,7 @@
     "babel-polyfill": "^6.26.0",
     "epubjs": "^0.3.83",
     "fastclick": "^1.0.6",
+    "localforage": "^1.7.3",
     "vue": "^2.6.6",
     "vue-create-api": "^0.2.1",
     "vue-i18n": "^8.10.0",

@@ -188,7 +188,7 @@ export function addToShelf (list) {
 }
 
 export function removeToShelf (list) {
-  return list.filter(item => item !== 3)
+  return list.filter(item => item.type !== 3)
 }
 
 export function gotoStoreHome (vue) {

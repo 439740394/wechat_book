@@ -1,9 +1,12 @@
 <template>
   <div class="shelf-list-category">
-    <div class="shelf-list-category-list">
+    <div class="shelf-list-category-list" v-if="data.itemList.length">
       <div class="shelf-list-category-item" v-for="(item, index) of data.itemList" :key="index">
         <img class="cover" :src="item.cover" alt="">
       </div>
+    </div>
+    <div class="shelf-item-category-bg" v-else>
+      <span class="icon-book2"></span>
     </div>
   </div>
 </template>
@@ -26,6 +29,7 @@ export default {
     .shelf-list-category-list {
       display: flex;
       flex-flow: row wrap;
+      align-content: flex-start;
       width: 100%;
       height: 100%;
       padding-top: px2rem(5);
@@ -48,6 +52,16 @@ export default {
           width: 100%;
           height: 100%;
         }
+      }
+    }
+    .shelf-item-category-bg {
+      width: 100%;
+      height: 100%;
+      @include center;
+      span {
+        font-size: px2rem(30);
+        color: #cccccc;
+        background: #ffffff;
       }
     }
   }

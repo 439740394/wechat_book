@@ -4,7 +4,7 @@
       <div class="shelf-title-text-wrapper">
         <span class="shelf-title-text">{{$t('shelf.title')}}</span>
         <span class="shelf-title-sub-text" v-show="isEditMode">{{selectedText}}</span>
-        <div class="shelf-title-btn-wrapper shelf-title-left"><span class="shelf-title-btn-text">{{$t('shelf.clearCache')}}</span></div>
+        <div class="shelf-title-btn-wrapper shelf-title-left" @click="clearCache"><span class="shelf-title-btn-text">{{$t('shelf.clearCache')}}</span></div>
         <div class="shelf-title-btn-wrapper shelf-title-right" @click="changeEdit"><span class="shelf-title-btn-text">{{isEditMode ? $t('shelf.cancel') : $t('shelf.edit')}}</span></div>
       </div>
     </div>
@@ -14,6 +14,8 @@
 <script>
 /* 引入混入 */
 import { storeShelfMixin } from '../../utils/mixins'
+import { clearLocalStorage } from '../../utils/localStorage'
+import { clearLocalForage } from '../../utils/localForage'
 
 export default {
   name: 'ShelfTitle',
@@ -24,6 +26,13 @@ export default {
     }
   },
   methods: {
+    clearCache () {
+      clearLocalStorage()
+      clearLocalForage()
+      this.setShelfSelected([])
+      this.getShelfList()
+      this.simpleToast(this.$t('shelf.clearCacheSuccess'))
+    },
     changeEdit () {
       if (!this.isEditMode) {
         this.setShelfSelected([])
