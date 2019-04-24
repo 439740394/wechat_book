@@ -1,11 +1,20 @@
 <template>
-  <div class="store-shelf">
-    <shelf-title :title="$t('shelf.title')"></shelf-title>
-    <scroll class="store-shelf-scroll-wrapper" :top="0" :bottom="bottom" @onScroll="onScroll" ref="scroll">
-      <shelf-search></shelf-search>
-      <shelf-list :data="shelfList"></shelf-list>
+  <div class="store-shelf-category">
+    <shelf-title
+      :title="shelfCategory.title"></shelf-title>
+    <scroll
+      class="store-shelf-scroll-wrapper"
+      :top="0"
+      :bottom="bottom"
+      @onScroll="onScroll"
+      ref="scroll"
+      v-if="listVisible">
+      <shelf-list :top="42" :data="shelfCategory.itemList"></shelf-list>
       <shelf-footer></shelf-footer>
     </scroll>
+    <div class="store-empty" v-else>
+      {{$t('shelf.groupNone')}}
+    </div>
   </div>
 </template>
 
@@ -14,16 +23,20 @@
 import { storeShelfMixin } from '../../utils/mixins'
 import ShelfTitle from '../../components/shelf/ShelfTitle'
 import Scroll from '../../components/common/scroll'
-import ShelfSearch from '../../components/shelf/ShelfSearch'
 import ShelfList from '../../components/shelf/ShelfList'
 import ShelfFooter from '../../components/shelf/ShelfFooter'
 export default {
   name: 'StoreShelf',
   mixins: [storeShelfMixin],
+  props: {
+    top: {
+      type: Number,
+      default: 94
+    }
+  },
   components: {
     ShelfFooter,
     ShelfList,
-    ShelfSearch,
     Scroll,
     ShelfTitle
   },
@@ -33,13 +46,17 @@ export default {
     }
   },
   mounted () {
-    this.getShelfList()
-    this.setShelfCategory([])
-    this.setCurrentType(1)
+    this.getCategoryList(this.$route.query.title)
+    this.setCurrentType(2)
   },
   methods: {
     onScroll (v) {
       this.setOffsetY(v)
+    }
+  },
+  computed: {
+    listVisible () {
+      return this.shelfCategory.itemList && this.shelfCategory.itemList.length > 0
     }
   },
   watch: {
@@ -54,7 +71,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .store-shelf {
+  @import "../../assets/styles/mixin";
+  .store-shelf-category {
     position: relative;
     width: 100%;
     height: 100%;
@@ -65,6 +83,16 @@ export default {
       top: 0;
       left: 0;
       z-index: 101;
+    }
+    .store-empty {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: px2rem(14);
+      color: #333;
+      @include center;
     }
   }
 </style>

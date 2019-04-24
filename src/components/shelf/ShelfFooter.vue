@@ -87,7 +87,7 @@ export default {
       toast.continueShow()
       return new Promise((resolve, reject) => {
         cacheBook(book, res => {
-          toast.remove()
+          toast.hide()
           book.cache = true
           resolve(book)
         }, reject, progressEvent => {

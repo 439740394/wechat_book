@@ -31,7 +31,9 @@ const state = {
   isEditMode: false,
   shelfList: [],
   shelfSelected: [],
-  shelfTitleVisible: true
+  shelfTitleVisible: true,
+  shelfCategory: [],
+  currentType: 1
 }
 
 export default state

@@ -39,7 +39,15 @@ export default new Router({
         {
           path: 'shelf',
           component: () => import('./views/store/StoreShelf.vue')
-        }
+        },
+        {
+          path: 'category',
+          component: () => import('./views/store/StoreCategory.vue')
+        },
+        {
+          path: 'speaking',
+          component: () => import('./views/store/StoreSpeaking.vue')
+        },
       ]
     }
   ]

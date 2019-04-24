@@ -1,13 +1,13 @@
 <template>
-  <div class="shelf-list">
+  <div class="shelf-list" :style="{top: shelfTop}">
     <transition-group
-      name="lister"
-      tag="div"
+      name="list"
+      tag="ul"
       class="shelf-list-item-wrapper">
-      <div class="item-wrapper" v-for="(item, index) in shelfList" :key="index">
+      <li class="item-wrapper" v-for="item in data" :key="item.id">
         <shelf-item :data="item" :style="{height: itemHeight}"></shelf-item>
         <div class="title"><span class="title-text title-small">{{item.title}}</span></div>
-      </div>
+      </li>
     </transition-group>
   </div>
 </template>
@@ -15,13 +15,28 @@
 <script>
 import { storeShelfMixin } from '../../utils/mixins'
 import ShelfItem from './ShelfItem'
-import { realPx } from '../../utils/utils'
+import { realPx, px2rem } from '../../utils/utils'
 
 export default {
   name: 'ShelfList',
   mixins: [storeShelfMixin],
+  props: {
+    top: {
+      type: Number,
+      default: 94
+    },
+    data: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   components: { ShelfItem },
   computed: {
+    shelfTop () {
+      return px2rem(this.top) + 'rem'
+    },
     itemHeight () {
       return ((window.innerWidth - realPx(120)) / 3) / 250 * 350 + 'px'
     }
@@ -33,7 +48,6 @@ export default {
   @import "../../assets/styles/home";
   .shelf-list {
     position: absolute;
-    top: px2rem(94);
     left: 0;
     width: 100%;
     z-index: 100;
@@ -48,10 +62,10 @@ export default {
         width: 33.33333%;
         padding: px2rem(15);
         box-sizing: border-box;
-        &.lister-leave-active {
+        &.list-leave-active {
           display: none;
         }
-        &.lister-move {
+        &.list-move {
           transition: transform .5s;
         }
         .title {

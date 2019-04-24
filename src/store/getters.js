@@ -24,7 +24,9 @@ const getters = {
   isEditMode: state => state.isEditMode,
   shelfList: state => state.shelfList,
   shelfSelected: state => state.shelfSelected,
-  shelfTitleVisible: state => state.shelfTitleVisible
+  shelfTitleVisible: state => state.shelfTitleVisible,
+  shelfCategory: state => state.shelfCategory,
+  currentType: state => state.currentType
 }
 
 export default getters

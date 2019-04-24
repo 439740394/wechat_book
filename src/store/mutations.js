@@ -76,6 +76,12 @@ const mutaions = {
   },
   'SET_SHELF_TITLE_VISIBLE': (state, visible) => {
     state.shelfTitleVisible = visible
+  },
+  'SET_SHELF_CATEGORY': (state, category) => {
+    state.shelfCategory = category
+  },
+  'SET_CURRENT_TYPE': (state, type) => {
+    state.currentType = type
   }
 }
 

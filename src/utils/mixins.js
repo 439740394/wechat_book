@@ -1,7 +1,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { themeList, adddCss, removeAllCss } from './bookConfig'
 import { saveLocation, getReadTime, getBookmark, getBookShelf, saveBookShelf } from './localStorage'
-import { gotoBookDetail, addToShelf } from './store'
+import { gotoBookDetail, addToShelf, computeId, removeToShelf } from './store'
 import { shelf } from '../api/store'
 
 export const ebookMinxins = {
@@ -117,8 +117,31 @@ export const storeShelfMixin = {
       'setShelfList',
       'setShelfSelected',
       'setShelfTitleVisible',
-      'setOffsetY'
+      'setOffsetY',
+      'setShelfCategory',
+      'setCurrentType'
     ]),
+    moveOutOfGroup (fn) {
+      const list = this.shelfList.map(book => {
+        if (book.type === 2 && book.itemList) {
+          book.itemList = book.itemList.filter(subBook => !subBook.selected)
+        }
+        return book
+      })
+      this.setShelfList(list).then(() => {
+        const newList = computeId(addToShelf([].concat(removeToShelf(this.shelfList), ...this.shelfSelected)))
+        this.setShelfList(newList).then(() => {
+          this.simpleToast(this.$t('shelf.moveBookOutSuccess'))
+          fn && fn()
+        })
+      })
+    },
+    getCategoryList (title) {
+      this.getShelfList().then(() => {
+        const categoryList = this.shelfList.filter(book => book.type === 2 && book.title === title)[0]
+        this.setShelfCategory(categoryList)
+      })
+    },
     showBookDetail (book) {
       gotoBookDetail(this, book)
     },
@@ -129,13 +152,13 @@ export const storeShelfMixin = {
           if (res.data && res.data.bookList.length > 0) {
             shelfList = addToShelf(res.data.bookList)
             saveBookShelf(shelfList)
-            this.setShelfList(shelfList)
+            return this.setShelfList(shelfList)
           }
         }).catch(err => {
           console.log(err)
         })
       } else {
-        this.setShelfList(shelfList)
+        return this.setShelfList(shelfList)
       }
     }
   },
@@ -145,7 +168,9 @@ export const storeShelfMixin = {
       'shelfList',
       'shelfSelected',
       'shelfTitleVisible',
-      'offsetY'
+      'offsetY',
+      'shelfCategory',
+      'currentType'
     ])
   }
 }
